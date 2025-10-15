@@ -3,7 +3,6 @@
 const toDoContainer=document.getElementById("toDoContainer");
 const inputField=document.getElementById("inputField");
 const addToDoBtn=document.getElementById("addToDo");
-const taskList=document.getElementById("taskList");
 const show=document.getElementById("show");
 
 addToDoBtn.addEventListener('click',function(){
@@ -16,8 +15,14 @@ addToDoBtn.addEventListener('click',function(){
     paragraph.addEventListener('click',function(){
         paragraph.style.textDecoration="line-through";
         console.log(paragraph);
-    })
+    });
+    });
     show.addEventListener('click',function(){
-        toDoContainer.removeChild(paragraph);
-    })
-})
+        const paragraphs=toDoContainer.querySelectorAll('p');
+        paragraphs.forEach(p=>{
+            if(p.style.textDecoration==="line-through"){
+            toDoContainer.removeChild(p);
+            }
+    });
+
+});
