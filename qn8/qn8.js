@@ -1,83 +1,90 @@
-// 8.   Given an array of words:
-// ["care", "race", "acre", "dog", "god", "cat"]
-// Group words that are anagrams together.
-//  Output:
-// [
-//   ["care", "race", "acre"],
-//   ["dog", "god"],
-//   ["cat"]
-// ]
+testCases = [{ expected :[["eat", "tea", "ate"], ["tan", "nat"], ["bat"]] , input:["eat", "tea", "tan", "ate", "nat", "bat"] }, 
+{ expected :[["listen", "silent"],["restful", "fluster"],["hello"],["world"]], input:["listen", "restful","silent", "fluster","hello", "world"] } , 
+{ expected : [["care", "race", "acre"],["dog", "god"],["cat"]] , input:["care", "race", "acre", "dog", "god", "cat"] },
+{ expected : [["tables","stable"],["rat","tar"],["mat"]] , input:["tables","rat","stable","mat","tar"]},
+{ expected : [["was","saw"],["lips","slip"],["clip"]] , input:["was","slip","saw","lips","fool"] },
+{ expected : [["tinu","unit"],["low","owl"]] , input:["tinu","owl","low","unit"]},
+{ expected : [["own","now","won"],["nib","bin"]] , input:["nib","own","bin","now","nib","won"]},
+{ expected : [["polo","loop","pool"],["melon","lemon"]] , input:["polo","melon","loop","lemon","pool"]},
+{ expected : [["sradha","adarsh"],["jinu","niju"]] , input:["sradha","jinu","adarsh","niju"]},
+{ expected : [["renson","ronsen"],["pratyush","hsuytarp"]] , input:["renson","hsuytarp","ronsen","pratyush"]},
+{ expected : [["war","raw"],["team","meat"],["risk"]] , input:["war","risk","meat","raw","team"]},
+{ expected : [["leap","plea"],["swing","wings"],["ping"]] , input:["leap","swing","plea","wings","ping"]},
+{ expected : false , input:5467},
+{ expected : false , input: false},
+{ expected : false , input: [] },
+{ expected : false , input: [{}] },
+{ expected : false , input: true },
+{ expected : false , input: null },
+{ expected : false , input: undefined },
+{ expected : false , input1:{}}];
 
-// SOLUTIONS
-let array1=[];
-let array2=[];
-let count1=0;
-let count2=0;
-let words=["care", "race", "acre", "dog", "god", "cat"];
-for(let i=0;i<words.length-1;i++){
-        // console.log(words[i]);
-        let string1=words[i];
-        let string2=words[i+1];
-        console.log(string2);
+test(testCases);
+function test(testCases) {
+    testCases.forEach((testCase, index) => {
+    const result = anagramCheck(testCase.input);
 
-let letters1=[...string1];
-let letters2=[...string2];
+for(let i=0;i<result.length;i++){
+    if (result[i] === testCase.expected[i] ) {
+        console.log(`test ${index + 1} failed`);
+    } 
+}
+        console.log(`test ${index + 1} passed`);
+  });
+}
 
-let frequency1={};
-let frequency2={};
-let count1=0;
-let count2=0;
-if(letters1.length===letters2.length){
-for(let i=0;i<string1.length;i++){
-    if(string1.indexOf(string1[i])<i){
-    continue;
+    
+
+function anagramCheck(words){
+    const dup = [];
+    if(!Array.isArray(words) || words === null || words === undefined){
+        return false;
     }
-    let count1=0;
-    for(let j=0;j<letters1.length;j++){
-        if(string1[i]==(letters1[j])){
-        count1++;
-}
-    }
-frequency1[string1[i]]=count1;
-}
-console.log(frequency1);
+    else{
+        for(let i=0;i<words.length;i++){
+            if(typeof words[i] !== "string"){
+                return false;
+            }
+        }
+        let newArray=[];
+        let mainArray=[];
+        let sarray=[]
+        let group=[]
+
+        let str1=""
+        let str2=""
+
+         for(let i=0;i<words.length;i++){
+            const word=words[i];
+        const sorted=word.split('').sort()
+            sarray.push(sorted);
+        
+         }
 
 
-for(let i=0;i<string2.length;i++){
-    if(string2.indexOf(string2[i])<i){
-        continue;
+for(let j=0;j<sarray.length;j++){
+    let key=sarray[j].join("");
+    for(let i=0;i<words.length;i++){
+        
+        const word=words[i];
+        if(typeof word !== "string"){
+            return false;
+        } 
+        if(!dup.includes(word)){
+            if(key===word.split("").sort().join("")){
+            
+            newArray.push(word);
+                dup.push(word);
+        }
     }
-    let count2=0;
-    for(let j=0;j<letters2.length;j++){
-        if(string2[i]===(letters2[j])){
-        count2++;
-}
-    }
-frequency2[string2[i]]=count2;
-}
-console.log(frequency2);
-
-let anagramCheck=true;
-for(let letter in frequency1){
-    if(frequency1[letter]!==frequency2[letter]){
-        anagramCheck=false;
-        break;
+     
+            }
+            newArray=[]
+            mainArray.push(newArray);
+        }
+        group=new Set(mainArray);
+        return group;
+    
     }
 }
-if(anagramCheck){
-        array1.push([words[i],words[i+1]]);
-  
-    console.log("anagram");                                                                         
-}
-else{
-        array2.push(words[i+1]);
-    console.log("not anagram");
-}
-}else{
-    console.log("anagram");
-}
-}
-console.log(array1);
-array3=array1[0]+array1[1];
-console.log(array3);
-console.log(array2);
+ 
